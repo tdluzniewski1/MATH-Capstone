@@ -1,0 +1,36 @@
+```latex
+\begin{thebibliography}{9}
+
+\bibitem{levernier2006}
+William Levernier and Anthony G. Barilla,
+\emph{The Effect of Region, Demographics, and Economic Characteristics on
+County-Level Voting Patterns in the 2000 Presidential Election},
+The Review of Regional Studies \textbf{36} (2006), no.~3, 427--447.
+
+\bibitem{erikson1989}
+Robert S. Erikson,
+\emph{Economic Conditions and the Presidential Vote},
+American Political Science Review \textbf{83} (1989), no.~2, 567--573.
+
+\bibitem{fotheringham2021}
+A. Stewart Fotheringham, Ziqi Li, and Levi John Wolf,
+\emph{Scale, Context, and Heterogeneity: A Spatial Analytical Perspective
+on the 2016 U.S. Presidential Election},
+Annals of the American Association of Geographers
+\textbf{111} (2021), no.~6, 1602--1621.
+
+\bibitem{zolghadr2018}
+Mohammad Zolghadr, Seyed Armin Akhavan Niaki, and S. T. A. Niaki,
+\emph{Modeling and Forecasting US Presidential Election Using Learning
+Algorithms},
+Journal of Industrial Engineering International
+\textbf{14} (2018), 491--500.
+
+\bibitem{pesaran2024}
+M. Hashem Pesaran and Hayun Song,
+\emph{Forecasting 2024 US Presidential Election by States Using County Level
+Data: Too Close to Call},
+CESifo Working Paper No.~11415,
+CESifo, Munich, 2024.
+
+\end{thebibliography}

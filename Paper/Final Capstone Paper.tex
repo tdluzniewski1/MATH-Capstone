@@ -1,0 +1,591 @@
+
+
+
+\documentclass[12pt]{article}
+
+% ============================================================
+% PACKAGES
+% ============================================================
+
+\usepackage[margin=1in]{geometry}
+\usepackage{setspace}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{hyperref}
+\usepackage{longtable}
+\usepackage[numbers]{natbib}
+
+
+\title{ Prediction Power of Economic and Demographic Variables in Presidential Elections }
+\author{Thomas Dluzniewski}
+
+\date{\today}
+
+\begin{document}
+	
+	\maketitle
+	
+	\begin{abstract}
+		
+		This study examines how accurately demographic and economic characteristics can predict state and county level voting behavior
+		across U.S. presidential elections. State-wide and county election returns are
+		combined with demographic and economic measures including educational
+		attainment, income, unemployment, poverty, age, and racial and ethnic
+		composition, variables which underlie prediction methods including multiple linear regression, K-nearest-neighbor regression, and decision trees.
+		
+		The analysis utilizes historical election cycles from 2012 to 2020 to estimate statistical
+		models that predict the 2024 presidential election. The models' performance will be
+		evaluated using prediction error, mean absolute error, root mean
+		squared error, and the ability of predicted vote shares to accurately reproduce
+		actual state and county-level outcomes.
+		
+		This study will then evaluate the accuracy of each model used and will identify which can produce the most accurate fit.
+		
+	\end{abstract}
+	
+	% ============================================================
+	% 1. INTRODUCTION
+	% ============================================================
+	
+	\section{Introduction}
+	
+	Presidential election outcomes vary substantially across states and counties in
+	the United States. Individual states and counties also greatly differ in demographic composition,
+	educational attainment, income, unemployment, poverty, and others, with these characteristics having historically informed voting behavior in American elections  \cite{levernier2006}\cite{erikson1989}.
+	
+	Thus, the primary research question of this study is:
+	
+	\begin{quote}
+		\textbf{To what extent can demographic characteristics and economic conditions
+		predict state and county-level presidential voting behavior and changes in
+		presidential vote share across election cycles?}
+	\end{quote}
+	
+	A secondary objective is to determine whether these relationships
+	differ geographically. A model that performs well nationally may
+	produce substantially different prediction errors across individual
+	states or regions depending upon model construction and variances within different parts of the United States.
+	
+	This study will also considers the predictive contribution of historical
+	political information. Comparing models based primarily on demographic
+	and economic characteristics with models that incorporate
+	historical election trends provides a way to evaluate how much
+	predictive information is contained in state and county
+	characteristics alone. 
+	
+	The scope of our data will span from the 2012 to 2024 presidential elections, with the 2012-2020 data being the basis for our training data that will then be utilized for the 2024 prediction.
+	
+	The 2024 predictions will be evaluated at both the state and county levels. Previous election-forecasting studies have conducted analysis at the state level\cite{zolghadr2018}, while other studies have utilized county-level data to examine geographic variation in voting behavior \cite{levernier2006}\cite{fotheringham2021}\cite{pesaran2024}. County-level analysis provides substantially more observations while also preserving county-to-county variation that is hidden when demographic and economic characteristics are aggregated to the state level. Levernier and Barilla (2006), for example, argue that substantial variation in voting behavior can exist within states and that county-level analysis allows this variation to be incorporated when estimating the relationships between demographic and economic characteristics and voting patterns.
+	
+	Accordingly, this study develops parallel state and county-level models. The county-level analysis allows demographic and economic diversity within states to be incorporated into the prediction process, while the state-level analysis directly examines the relationship between statewide characteristics and statewide presidential outcomes. Comparing predictive performance at these two geographic levels provides an additional means of evaluating how the geographic scale of analysis affects model performance. State-level predictions also provide a direct basis for evaluating statewide outcomes and, subsequently, the distribution of Electoral College votes. State-wide election results will also be evaluated utilizing the county-level predictions, with vote totals being calculated utilizing a voter turnout model.
+	
+	% Add some preliminary results when available later on
+	
+	
+	% ============================================================
+	% 2. DATA
+	% ============================================================
+	
+	\section{Data}
+	
+	\subsection{Election Data}
+	
+	Presidential election results are obtained from the MIT Election Data
+	and Science Lab. Candidate-level election returns are aggregated to
+	two separate state and county-election level panels.
+	
+	For each county and election, Democratic and Republican votes are
+	combined to construct the two-party vote total:
+	
+	\begin{equation}
+		TwoPartyVotes_{it}
+		=
+		DemVotes_{it} + RepVotes_{it}.
+	\end{equation}
+	
+	Democratic two-party vote share is then calculated as
+	
+	\begin{equation}
+		DemShare_{it}
+		=
+		100
+		\left(
+		\frac{DemVotes_{it}}
+		{DemVotes_{it}+RepVotes_{it}}
+		\right).
+	\end{equation}
+	
+	The change in Democratic vote share between presidential elections is
+	defined as
+	
+	\begin{equation}
+		DemShift_{it}
+		=
+		DemShare_{it} - DemShare_{i,t-1}.
+	\end{equation}\\
+	
+	Geographic observations are identified using Federal Information
+	Processing Series (FIPS) codes. County GEOIDs are constructed from a
+	two-digit state FIPS code and a three-digit county FIPS code, producing
+	a five-digit geographic identifier. These identifiers provide the
+	primary data matching key used to match election observations with
+	corresponding demographic and economic data.
+	
+	\subsection{Demographic Data}
+	
+	Demographic characteristics are obtained primarily from the five-year American
+	Community Survey (ACS). The five-year ACS estimates are used due to its greater geographic coverage at the county-wide level. Five-year estimates have the additional benefit of having a lower margin of error. The one year ACS surveys miss a subset of counties that would prevent proper predictions from being performed due to a lack of data. This comes at the disadvantage of the data not being as timely as the one year surveys.
+	
+	Variables currently included in the analysis include:
+	
+	\begin{itemize}
+		\item Median age
+		\item Educational attainment
+		\item White non-Hispanic population share
+		\item Black population share
+		\item Hispanic population share
+		\item Sub-Hispanic group population shares
+		\item Asian population share
+		\item Other demographic measures where appropriate
+	\end{itemize}
+	
+	Educational attainment is measured using the percentage of the
+	population age 25 and older with at least a high school education and
+	the percentage with a bachelor's degree or higher.
+	
+	We will also account for Hispanic subgroups such as Mexicans, Puerto Ricans, Cubans, and others. This allows the analysis to test whether a more
+	detailed representation of Hispanic or Latino population composition
+	improves predictive performance relative to the aggregate Hispanic or
+	Latino population measure.
+	
+	\subsection{Economic Data}
+	
+	Economic variables include:
+	
+	\begin{itemize}
+		\item Median household income
+		\item Per capita income
+		\item Unemployment rate
+		\item Poverty rate
+	\end{itemize}
+	
+	Median household income, per capita income, and poverty measures are
+	obtained from the American Community Survey. Unemployment data is
+	obtained separately from the U.S. Department of Agriculture.
+	
+	\subsection{Data Timeframe}
+	
+	With the exception of 2020 economic data, all data from each election is taken from the ACS survey from the year before the presidential election (e.g. 2016 election results utilizes ACS data from 2015). This is done in the interest of being able to predict election results utilizing the most immediately available data from the year before the election instead of incorporating data that is not available until after the election occurs. 
+	\\\\
+	2020 is the exception for this due to the unique economic circumstances relating to the COVID-19 pandemic that substantially affected the household incomes, poverty rates, and unemployment rates of all states across the United States, with these effects playing a key role in voters' decision in that year's election.
+	
+	\subsection{Geographic Harmonization}
+	
+	The vast majority of observations are joined across datasets using state and county FIPS codes in the election results and the GEOIDs in the ACS data.
+	\\\\
+	Two states required additional geographic treatment due to census and election reporting inconsistencies.
+	\\\\
+	Alaska election reporting geography does not directly correspond to
+	the borough and census-area geography used by the Census Bureau due to Alaska's presidential election results reported by state house district. This problem will be resolved by retrieving election results per designated bureau regions and matching them to their corresponding background information.
+	\\\\
+	Connecticut presents a separate geographic issue. Beginning in 2022,
+	the Census Bureau replaced Connecticut's eight historical counties
+	with nine planning regions as county-equivalent statistical units due to Connecticut abolishing its county-level governance in 1960, with the bureau not adjusting its reporting until the 2022 ACS. The election and demographic datasets must therefore be harmonized
+	before Connecticut can be included consistently in the 2024
+	county-level analysis.
+	
+	% TODO:
+	% Replace this discussion with the final procedures once AK/CT
+	% harmonization is complete.
+	
+	
+	% ============================================================
+	% 3. METHODS
+	% ============================================================
+	
+	\section{Methods}
+	
+	\subsection{Prediction Framework}
+	
+	This study develops two disjointed prediction models at the county and state
+	levels to evaluate the extent to which demographic and economic
+	characteristics can predict presidential voting behavior. In the interest of simplicity, we have made the primary
+	outcome of interest the Democratic two-party presidential vote share so that our values are pegged to a specific party instead of having the value change from incumbent to incumbent party.
+	
+	Models are estimated separately at the county and state levels rather
+	than treating the two geographic levels as part of a single model.
+	
+	The primary model specifications intentionally relies only on demographic
+	and economic characteristics. Previous presidential election results
+	are excluded from this model in order to isolate the predictive power behind demographic and economic information alone.
+	
+	A secondary model incorporates previous presidential voting
+	behavior while retaining the same variables as the first. This political-history augmented model is used as a benchmark
+	for determining how much predictive performance changes when information
+	about previous voting behavior is added to the demographic and economic
+	variables.
+	
+	\subsection{Primary Economic and Demographic model}
+	
+	The primary multiple linear regression model predicts Democratic
+	two-party vote share using demographic and economic characteristics.
+	The general model is
+	
+	\begin{equation}
+		DemShare_{it}
+		=
+		\beta_0
+		+
+		\boldsymbol{\beta}_{D}'\mathbf{D}_{it}
+		+
+		\boldsymbol{\beta}_{E}'\mathbf{E}_{it}
+		+
+		\epsilon_{it},
+	\end{equation}
+	
+	where $DemShare_{it}$ represents Democratic two-party vote share for
+	geographic unit $i$ in election $t$, $\mathbf{D}_{it}$ is a vector of
+	demographic characteristics, and $\mathbf{E}_{it}$ is a vector of
+	economic characteristics.
+	
+	The initial demographic variables include median age, educational
+	attainment, White non-Hispanic population share, Black population
+	share, and Hispanic or Latino population share. The economic variables
+	include median household income, unemployment rate, and poverty rate.
+	
+	The purpose of this model is not to incorporate information
+	about how a geographic unit voted previously. Instead, it evaluates
+	the extent to which its demographic and economic characteristics alone
+	contain information useful for predicting presidential vote share.
+	
+	
+	\subsection{Political-History Augmented Model}
+	
+	A second multiple linear regression model adds Democratic
+	two-party vote share from the previous presidential election:
+	
+	\begin{equation}
+		DemShare_{it}
+		=
+		\beta_0
+		+
+		\beta_1 DemShare_{i,t-1}
+		+
+		\boldsymbol{\beta}_{D}'\mathbf{D}_{it}
+		+
+		\boldsymbol{\beta}_{E}'\mathbf{E}_{it}
+		+
+		\epsilon_{it}.
+	\end{equation}
+	
+	The purpose of this model is to measure the additional
+	predictive information provided by recent political history. Because
+	previous presidential voting behavior is expected to contain substantial
+	information about subsequent voting behavior, the comparison is not
+	primarily intended as a model-selection exercise. Instead, the change
+	in out-of-sample prediction error between the two models is used
+	to quantify how much predictive performance changes when previous
+	presidential vote share is added to the demographic and economic
+	information set.
+	
+	Both models are estimated using the same observations and the
+	same demographic and economic variables so that differences in
+	predictive performance can be attributed more directly to the addition
+	of previous Democratic vote. 
+	
+	These models are also evaluated at the state and county levels, with the differences between the two detailed below.
+	
+	
+	\subsection{County-Level Models}
+	
+	The county-level analysis applies both models described above to county-election
+	observations. Each county is observed across multiple presidential
+	election cycles, allowing demographic and economic characteristics to
+	vary both geographically and over time.
+	
+	The county model provides substantially more observations than the
+	state-level model and preserves variation within states that would
+	otherwise be obscured by statewide aggregation. Separate predictions
+	are generated for each county in the 2024 election.
+	
+	In addition to national measures of county-level predictive performance,
+	prediction errors are summarized by state. This allows the analysis to
+	identify geographic differences in model performance and to determine
+	whether either model systematically performs better or worse
+	within particular states or regions.
+	
+	
+	\subsection{State-Level Models}
+	
+	The same general modeling framework is applied to the
+	state-election panel. The primary state model predicts statewide
+	Democratic two-party vote share using statewide demographic and economic
+	characteristics, while the political-history model
+	adds the state's Democratic two-party vote share from the preceding
+	presidential election.
+	
+	Estimating the state and county models separately allows predictive
+	performance to be compared across geographic scales. The state model
+	directly evaluates statewide outcomes, while the county model captures
+	the heterogeneity of demographic and economic within states.
+	
+	Because the number of state-election observations is considerably
+	smaller than the number of county-election observations, results from
+	the state-level models are interpreted with particular attention to the
+	smaller estimation sample and the resulting limitations on model
+	complexity.
+	
+	
+	\subsection{Training and Test Data}
+	
+	The models are based on a chronological training-test design.
+	Observations corresponding to the 2012, 2016, and 2020 presidential
+	elections are used for model estimation, while the 2024 presidential
+	election is withheld from estimation and used as an out-of-sample test.
+	
+	Accordingly, the model parameters are estimated without using the
+	observed 2024 presidential election outcome. The estimated coefficients
+	are then applied to the demographic and economic characteristics
+	associated with the 2024 election to generate predicted Democratic
+	two-party vote shares.
+	
+	For the political-history augmented model, the Democratic
+	two-party vote share from the preceding presidential election is also
+	provided as a predictor. Election results from 2008 are therefore used
+	only where necessary to construct the lagged vote-share variable for
+	the 2012 observations and are not included as observations
+	in the model-training period.
+	
+	
+	\subsection{Prediction Error and Model Evaluation}
+	
+	For each 2024 observation, prediction error is defined as
+	
+	\begin{equation}
+		e_i
+		=
+		DemShare_i - \widehat{DemShare}_i,
+	\end{equation}
+	
+	where $DemShare_i$ represents the observed 2024 Democratic two-party
+	vote share and $\widehat{DemShare}_i$ represents the corresponding
+	model prediction. Positive errors indicate that the model
+	underpredicted Democratic vote share, while negative errors indicate
+	that the model overpredicted Democratic vote share.
+	
+	Overall predictive performance is evaluated using mean absolute error
+	(MAE) and root mean squared error (RMSE):
+	
+	\begin{equation}
+		MAE
+		=
+		\frac{1}{n}
+		\sum_{i=1}^{n}
+		|e_i|,
+	\end{equation}
+	
+	and
+	
+	\begin{equation}
+		RMSE
+		=
+		\sqrt{
+			\frac{1}{n}
+			\sum_{i=1}^{n}
+			e_i^2
+		}.
+	\end{equation}
+	
+	MAE represents the average absolute difference between predicted and
+	observed Democratic vote share, while RMSE places greater weight on
+	large prediction errors. The correlation between predicted and observed
+	Democratic vote share is also calculated as an additional measure of
+	the extent to which the model reproduces geographic variation in the
+	2024 election results.
+	
+	The primary economic and demographic model and the
+	political-history augmented model are evaluated using the same
+	metrics. Particular attention is given to the magnitude of the change
+	in MAE and RMSE after previous Democratic vote share is introduced.
+	
+	
+	\subsection{Winner Classification}
+	
+	Although the primary outcome is continuous Democratic two-party vote
+	share, the practical electoral outcome of each geographic unit can also
+	be represented as a binary classification. A geographic unit is
+	classified as Democratic when its Democratic two-party vote share
+	exceeds 50 percent and Republican when its Democratic two-party vote
+	share is below 50 percent.
+	
+	The same threshold is applied to predicted Democratic vote share.
+	Predicted and observed winners are then compared to calculate the
+	percentage of geographic units for which each model correctly
+	classifies the winning party.
+	
+	Winner classification is treated as a supplementary performance
+	measure rather than a replacement for continuous prediction-error
+	metrics. It may be possible for a model to correctly classify a geographic unit despite
+	producing a relatively large vote-share error, particularly when the
+	observed result is far from the 50-percent threshold.
+	
+	
+	\subsection{Comparison of Model Specifications}
+	
+	The difference in predictive performance between the primary and
+	political-history models provides a measure of the incremental
+	predictive contribution of previous presidential voting behavior. At
+	the individual geographic level, the change in absolute prediction
+	error can be expressed as
+	
+	\begin{equation}
+		\Delta Error_i
+		=
+		|e_{i,Econ}|
+		-
+		|e_{i,Political}|.
+	\end{equation}
+	
+	Positive values indicate that the addition of previous Democratic vote
+	share reduced the absolute prediction error, while negative values
+	indicate that the addition produced a larger
+	error.
+	
+	These differences can also be summarized geographically to examine
+	whether the political history model's accuracy varies across states and
+	regions. This provides an additional means of evaluating geographic
+	heterogeneity in model performance.
+	
+	\subsection{Additional Model Specifications}
+	
+	The multiple linear regression models serve as the initial modeling
+	framework for the study. Subsequent analysis will evaluate alternative
+	model specifications and predictive methods to determine whether
+	nonlinear relationships or interactions among demographic and economic
+	characteristics improve out-of-sample performance.
+	
+	Additional models will also examine more detailed demographic
+	characteristics, including Hispanic and Latino national-origin
+	subgroups where consistent data are available. These expanded
+	models will be compared with the baseline demographic and
+	economic model to evaluate whether additional demographic detail
+	provides measurable improvements in prediction.
+	
+	Further statistical diagnostics and robustness checks will be applied
+	to the regression models as the analysis develops, including
+	evaluation of multicollinearity, residual behavior, influential
+	observations, and alternative model specific.
+	
+	
+	% ============================================================
+	% 4. PRELIMINARY RESULTS
+	% ============================================================
+	
+	\section{Preliminary Results}
+	
+	\subsection{Exploratory Data Analysis}
+	
+	Initial exploratory analysis examines the distribution of county-level
+	vote-share shifts across presidential elections and the relationships
+	between the dependent variables and demographic and economic
+	characteristics.
+	
+	
+	\subsection{Regression Results}
+	
+	Table~\ref{tab:regression} will report the primary linear regression
+	results.
+	
+	
+	
+	\subsection{Out-of-Sample Prediction}
+	
+	The primary prediction exercise estimates the model using elections
+	prior to 2024 and applies the estimated coefficients to 2024 county
+	characteristics.
+
+	% Add:
+	% - 2024 MAE
+	% - 2024 RMSE
+	% - correlation between predicted and observed vote share
+	% - county classification results
+	
+	
+	\subsection{Geographic Variation in Prediction Error}
+	
+	Prediction errors are also examined geographically. County-level
+	predictions are aggregated and visualized by state to determine
+	whether model performance differs systematically across geographic
+	areas.
+	
+
+	\section{Extensions and Robustness Checks}
+	
+	\subsection{Political-History Benchmark}
+	
+	The primary models emphasize demographic and economic characteristics.
+	An extended model will incorporate recent political
+	information to evaluate the incremental predictive contribution of
+	political history.
+	
+	Potential variables include electoral performance during the preceding midterm cycle.
+	
+	The comparison is designed to distinguish between:
+	
+	\begin{enumerate}
+		\item a structural model based primarily on economic and
+		demographic characteristics; and
+		
+		\item an expanded model that additionally incorporates recent
+		political information.
+	\end{enumerate}
+	
+	This comparison provides a direct test of how much predictive
+	performance changes when recent electoral information is added to the
+	structural model.
+	
+	
+	\subsection{Alternative models}
+	
+	Additional robustness checks may include:
+	
+	
+	% ============================================================
+	% 6. DISCUSSION
+	% ============================================================
+	
+	\section{Discussion}
+	
+	
+	
+	% ============================================================
+	% 7. LIMITATIONS
+	% ============================================================
+	
+	\section{Limitations}
+	
+	
+	
+	
+	% ============================================================
+	% 8. CONCLUSION
+	% ============================================================
+	
+	\section{Conclusion}
+	
+	
+	
+	
+	% ============================================================
+	% REFERENCES
+	% ============================================================
+	
+	\bibliographystyle{amsplain}
+	\bibliography{thebibliography}
+	
+\end{document}

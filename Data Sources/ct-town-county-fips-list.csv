@@ -1,0 +1,170 @@
+﻿Town,County,FIPS
+Andover,Tolland,901301080
+Ansonia,New Haven,900901220
+Ashford,Windham,901501430
+Avon,Hartford,900302060
+Barkhamsted,Litchfield,900502760
+Beacon Falls,New Haven,900903250
+Berlin,Hartford,900304300
+Bethany,New Haven,900904580
+Bethel,Fairfield,900104720
+Bethlehem,Litchfield,900504930
+Bloomfield,Hartford,900305910
+Bolton,Tolland,901306260
+Bozrah,New London,901106820
+Branford,New Haven,900907310
+Bridgeport,Fairfield,900108070
+Bridgewater,Litchfield,900508210
+Bristol,Hartford,900308490
+Brookfield,Fairfield,900108980
+Brooklyn,Windham,901509190
+Burlington,Hartford,900310100
+Canaan,Litchfield,900510940
+Canterbury,Windham,901512130
+Canton,Hartford,900312270
+Chaplin,Windham,901513810
+Cheshire,New Haven,900914160
+Chester,Middlesex,900714300
+Clinton,Middlesex,900715350
+Colchester,New London,901115910
+Colebrook,Litchfield,900516050
+Columbia,Tolland,901316400
+Cornwall,Litchfield,900517240
+Coventry,Tolland,901317800
+Cromwell,Middlesex,900718080
+Danbury,Fairfield,900118500
+Darien,Fairfield,900118850
+Deep River,Middlesex,900719130
+Derby,New Haven,900919550
+Durham,Middlesex,900720810
+East Granby,Hartford,900322070
+East Haddam,Middlesex,900722280
+East Hampton,Middlesex,900722490
+East Hartford,Hartford,900322630
+East Haven,New Haven,900922910
+East Lyme,New London,901123400
+East Windsor,Hartford,900324800
+Eastford,Windham,901521860
+Easton,Fairfield,900123890
+Ellington,Tolland,901325360
+Enfield,Hartford,900325990
+Essex,Middlesex,900726270
+Fairfield,Fairfield,900126620
+Farmington,Hartford,900327600
+Franklin,New London,901129910
+Glastonbury,Hartford,900331240
+Goshen,Litchfield,900532290
+Granby,Hartford,900332640
+Greenwich,Fairfield,900133620
+Griswold,New London,901133900
+Groton,New London,901134250
+Guilford,New Haven,900934950
+Haddam,Middlesex,900735230
+Hamden,New Haven,900935650
+Hampton,Windham,901536000
+Hartford,Hartford,900337070
+Hartland,Hartford,900337140
+Harwinton,Litchfield,900537280
+Hebron,Tolland,901337910
+Kent,Litchfield,900540290
+Killingly,Windham,901540500
+Killingworth,Middlesex,900740710
+Lebanon,New London,901142390
+Ledyard,New London,901142600
+Lisbon,New London,901143230
+Litchfield,Litchfield,900543370
+Lyme,New London,901144210
+Madison,New Haven,900944560
+Manchester,Hartford,900344700
+Mansfield,Tolland,901344910
+Marlborough,Hartford,900345820
+Meriden,New Haven,900946520
+Middlebury,New Haven,900946940
+Middlefield,Middlesex,900747080
+Middletown,Middlesex,900747360
+Milford,New Haven,900947535
+Monroe,Fairfield,900148620
+Montville,New London,901148900
+Morris,Litchfield,900549460
+Naugatuck,New Haven,900949950
+New Britain,Hartford,900350440
+New Canaan,Fairfield,900150580
+New Fairfield,Fairfield,900150860
+New Hartford,Litchfield,900551350
+New Haven,New Haven,900952070
+New London,New London,901152350
+New Milford,Litchfield,900552630
+Newington,Hartford,900352140
+Newtown,Fairfield,900152980
+Norfolk,Litchfield,900553470
+North Branford,New Haven,900953890
+North Canaan,Litchfield,900554030
+North Haven,New Haven,900954870
+North Stonington,New London,901155500
+Norwalk,Fairfield,900156060
+Norwich,New London,901156270
+Old Lyme,New London,901157040
+Old Saybrook,Middlesex,900757320
+Orange,New Haven,900957600
+Oxford,New Haven,900958300
+Plainfield,Windham,901559980
+Plainville,Hartford,900360120
+Plymouth,Litchfield,900560750
+Pomfret,Windham,901561030
+Portland,Middlesex,900761800
+Preston,New London,901162150
+Prospect,New Haven,900962290
+Putnam,Windham,901562710
+Redding,Fairfield,900163480
+Ridgefield,Fairfield,900163970
+Rocky Hill,Hartford,900365370
+Roxbury,Litchfield,900565930
+Salem,New London,901166210
+Salisbury,Litchfield,900566420
+Scotland,Windham,901567400
+Seymour,New Haven,900967610
+Sharon,Litchfield,900567960
+Shelton,Fairfield,900168170
+Sherman,Fairfield,900168310
+Simsbury,Hartford,900368940
+Somers,Tolland,901369220
+South Windsor,Hartford,900371390
+Southbury,New Haven,900969640
+Southington,Hartford,900370550
+Sprague,New London,901171670
+Stafford,Tolland,901372090
+Stamford,Fairfield,900173070
+Sterling,Windham,901573420
+Stonington,New London,901173770
+Stratford,Fairfield,900174190
+Suffield,Hartford,900374540
+Thomaston,Litchfield,900575730
+Thompson,Windham,901575870
+Tolland,Tolland,901376290
+Torrington,Litchfield,900576570
+Trumbull,Fairfield,900177200
+Union,Tolland,901377830
+Vernon,Tolland,901378250
+Voluntown,New London,901178600
+Wallingford,New Haven,900978740
+Warren,Litchfield,900579510
+Washington,Litchfield,900579720
+Waterbury,New Haven,900980070
+Waterford,New London,901180280
+Watertown,Litchfield,900580490
+West Hartford,Hartford,900382590
+West Haven,New Haven,900982870
+Westbrook,Middlesex,900781680
+Weston,Fairfield,900183430
+Westport,Fairfield,900183500
+Wethersfield,Hartford,900384900
+Willington,Tolland,901385950
+Wilton,Fairfield,900186370
+Winchester,Litchfield,900586440
+Windham,Windham,901586790
+Windsor,Hartford,900387000
+Windsor Locks,Hartford,900387070
+Wolcott,New Haven,900987560
+Woodbridge,New Haven,900987700
+Woodbury,Litchfield,900587910
+Woodstock,Windham,901588190
